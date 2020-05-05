@@ -2,7 +2,7 @@ package com.ipartek.DAO;
 
 import java.util.ArrayList;
 
-public interface DAO<P> {
+public interface ICrudable<P> {
 
 	//CRUD
 	public P insert(P pojo) throws Exception;

@@ -12,7 +12,7 @@ import com.ipartek.formacion.modelo.Producto;
  * @author Alvaro
  *
  */
-public class ProductoDAOImpl implements DAO<Producto> {
+public class ProductoDAOImpl implements ICrudable<Producto> {
 
 	// patron singleton
 	private static ProductoDAOImpl INSTANCE = null;
