@@ -12,28 +12,49 @@ public class PruebasProductoDAO {
 		System.out.println("--------------------inicio getAll--------------------");
 		ProductoDAOImpl productoDAO=ProductoDAOImpl.getInstace();
 
-		ArrayList<Producto>productos=productoDAO.getAll();
+		ArrayList<Producto> productos=new ArrayList<Producto>();
+		try {
+			productos = productoDAO.getAll();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		System.out.println(productos);
 		System.out.println("---------------------fin getAll--------------------");
 		
 		System.out.println("--------------------inicio getById--------------------");
 		Producto p=new Producto();
 		int idABuscar=8;
-		p=productoDAO.getById(idABuscar);
+		try {
+			p=productoDAO.getById(idABuscar);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println(p);
 		System.out.println("--------------------fin getById--------------------");
 		System.out.println("--------------------inicio update--------------------");
 		
 		Producto pUpdate=new Producto("Patatas Lays Ali-Oli");
 		pUpdate.setId(23);
-		productoDAO.update(pUpdate);
-		System.out.println(productoDAO.getAll());
+		try {
+			productoDAO.update(pUpdate);
+			System.out.println(productoDAO.getAll());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println("--------------------fin update--------------------");
 		System.out.println("--------------------Inicio insert--------------------");
 		Producto pInsert=new Producto("brocoli fresco");
-		productoDAO.insert(pInsert);
-		for (Producto producto : productoDAO.getAll()) {
-			System.out.println(producto);
+		try {
+			productoDAO.insert(pInsert);
+			for (Producto producto : productoDAO.getAll()) {
+				System.out.println(producto);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 		System.out.println("--------------------fin insert--------------------");
@@ -41,7 +62,12 @@ public class PruebasProductoDAO {
 		System.out.println("Introduzca id a eliminar");
 		int id=Integer.parseInt(sc.nextLine());
 		Producto productoDelete=new Producto();
-		productoDelete=productoDAO.delete(id);
+		try {
+			productoDelete=productoDAO.delete(id);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println(productoDelete);
 		System.out.println("--------------------fin delete--------------------");
 	}
