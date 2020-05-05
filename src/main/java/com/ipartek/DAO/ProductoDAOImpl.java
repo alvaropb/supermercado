@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import com.ipartek.formacion.modelo.ConnectionManager;
 import com.ipartek.formacion.modelo.Producto;
 /**
- * @see 
+ * @see https://github.com/alvaropb/supermercado
  * @author Alvaro
  *
  */
