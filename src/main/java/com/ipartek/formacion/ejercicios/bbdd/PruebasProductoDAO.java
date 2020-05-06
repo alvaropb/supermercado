@@ -1,9 +1,10 @@
-package com.ipartek.DAO;
+package com.ipartek.formacion.ejercicios.bbdd;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.ipartek.formacion.modelo.Producto;
+import com.ipartek.formacion.modelo.ProductoDAOImpl;
 
 public class PruebasProductoDAO {
 

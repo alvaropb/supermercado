@@ -1,4 +1,4 @@
-package com.ipartek.DAO;
+package com.ipartek.formacion.modelo;
 
 import java.util.ArrayList;
 
