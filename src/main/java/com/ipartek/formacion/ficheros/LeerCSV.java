@@ -28,7 +28,8 @@ public class LeerCSV {
 
 					String linea[] = sc.nextLine().split(",");
 					// sacamos los minutos y nombre
-					Integer minutos = Integer.valueOf(linea[4].substring(1, 4).trim());
+					
+					Integer minutos = Integer.valueOf(linea[4].split(" ")[0]);
 					String nombre = linea[0];
 					if (mapa.containsKey(nombre)) {
 						Sesion sesion=mapa.get(nombre);
