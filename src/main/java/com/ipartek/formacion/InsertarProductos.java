@@ -19,19 +19,20 @@ public class InsertarProductos {
 
 		do {
 
-			try {
+			try (Connection conexion = DriverManager.getConnection(URL_CONEXION, USUARIO, PASS);
+				PreparedStatement ps = conexion.prepareStatement(SQL);){
 				Class.forName("com.mysql.jdbc.Driver");
 				System.out.println("Comprobar que Existe el .jar de mysql");
 				// conectarse a la bbdd supermercado
-				Connection conexion = DriverManager.getConnection(URL_CONEXION, USUARIO, PASS);
+				
 				System.out.println("conexion con exito");
 				// realizar una insercion
-				PreparedStatement ps = conexion.prepareStatement(SQL);
+				
 
 				System.out.println("Introduzca el nombre del producto a insertar");
 
 				ps.setString(1, sc.nextLine());
-
+				
 				int affectedRows = ps.executeUpdate();
 				System.out.println("Se actualizaron " + affectedRows + " filas");
 				seguir=false;

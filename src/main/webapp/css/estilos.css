@@ -1,0 +1,17 @@
+/* Hojas de estilos
+* 1.- RESET
+* 2.-Etiquetas(Normalize)
+* 3.-Layouts
+* 4.-Clases comunes
+* 5.-Cosas mas especificas por id
+*/
+
+
+/*RESET*/
+@import url("reset.css");
+@import url("normalize.css");
+@import url("etiquetas.css");
+@import url("layout.css");
+@import url("formularios-estilos.css");
+
+

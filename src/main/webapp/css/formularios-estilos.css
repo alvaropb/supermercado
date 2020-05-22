@@ -1,0 +1,22 @@
+form {
+    background-color: #DDD;
+    padding: 1rem;
+    border: 1px solid rgb(10, 10, 10);
+    border-radius: 5px;
+    margin-top: 5px;
+}
+input {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+fieldset {
+    border: 1px solid rgb(10, 10, 10);
+    margin-top: 1rem;
+}
+
+input[type="text"]:valid {
+    color: green;
+}
+input[type="text"]:invalid {
+    color:red;
+}

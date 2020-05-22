@@ -15,7 +15,7 @@ public class ProductoDAOImpl implements ICrudable<Producto> {
 	private static ProductoDAOImpl INSTANCE = null;
 	private final String SQL_INSERT = "INSERT INTO producto(nombre,id_usuario) VALUES(?,?)";
 	private final String SQL_SELECT_ID = "SELECT nombre, id FROM producto WHERE id=?;";
-	private final String SQL_SELECT_ALL = "SELECT id,nombre FROM producto;";
+	private final String SQL_SELECT_ALL = "SELECT id,nombre FROM producto ORDER BY id DESC;";
 	private final String SQL_UPDATE = "UPDATE producto SET nombre=? WHERE id=?;";
 	private final String SQL_DELETE = "DELETE FROM producto WHERE id=?";
 

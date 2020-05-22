@@ -12,7 +12,7 @@ public class ListarProductos {
 		final String URL_CONEXION = "jdbc:mysql://localhost:3306/supermercado";
 		final String USUARIO = "debian-sys-maint";
 		final String PASS = "o8lAkaNtX91xMUcV";
-		final String SQL = "SELECT id, nombre FROM producto ORDER BY nombre ASC";
+		final String SQL = "SELECT id, nombre FROM producto ORDER BY id DESC";
 
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
