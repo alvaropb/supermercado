@@ -1,0 +1,34 @@
+i {
+    color: white;
+    font-size: 2rem;
+    margin-right: 1rem;
+}
+
+#footer {
+    position: absolute;
+    bottom: 0px;
+
+}
+
+#principal {
+    margin-top: 100px;
+    margin-bottom: 60px;
+    height: auto;
+}
+#fila-de-5 {
+      column-count: 5 !important;
+    
+}
+
+#boton-subir {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
+.columna-de-5 {
+    flex-grow: 5 !important;
+}
+
+form {
+    max-height: 60%;
+}
