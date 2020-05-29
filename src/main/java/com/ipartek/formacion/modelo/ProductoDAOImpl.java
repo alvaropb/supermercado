@@ -9,14 +9,15 @@ import java.util.ArrayList;
  * @author Alvaro
  *
  */
-public class ProductoDAOImpl implements ICrudable<Producto> {
+public class ProductoDAOImpl implements ProductoDAO{
 
 	// patron singleton
 	private static ProductoDAOImpl INSTANCE = null;
-	private final String SQL_INSERT = "INSERT INTO producto(nombre,id_usuario) VALUES(?,?)";
-	private final String SQL_SELECT_ID = "SELECT nombre, id FROM producto WHERE id=?;";
-	private final String SQL_SELECT_ALL = "SELECT id,nombre FROM producto ORDER BY id DESC;";
-	private final String SQL_UPDATE = "UPDATE producto SET nombre=? WHERE id=?;";
+	private final String SQL_INSERT = "INSERT INTO producto(nombre,id_usuario,precio,imagen) VALUES(?,?,?,?)";
+	private final String SQL_SELECT_ID = "SELECT nombre, id, imagen, precio FROM producto WHERE id=?;";
+	private final String SQL_SELECT_ALL = "SELECT id,nombre,imagen,precio FROM producto ORDER BY id DESC;";
+	private final String SQL_SELECT_BY_PRICE = "SELECT id,nombre,imagen,precio FROM producto WHERE precio BETWEEN ? AND ? ORDER BY precio DESC;";
+	private final String SQL_UPDATE = "UPDATE producto SET nombre=?,precio=?,imagen=? WHERE id=?;";
 	private final String SQL_DELETE = "DELETE FROM producto WHERE id=?";
 
 	private ProductoDAOImpl() {
@@ -40,8 +41,12 @@ public class ProductoDAOImpl implements ICrudable<Producto> {
 		try (Connection conn = ConnectionManager.getConnection();
 				PreparedStatement pst = conn.prepareStatement(SQL_INSERT, PreparedStatement.RETURN_GENERATED_KEYS);) {
 			pst.setString(1, pojo.getNombre());
+			
 			// le pasamos el id_usuario 1
 			pst.setInt(2, 1);
+			// se le pasa precio e imagen
+			pst.setFloat(3, pojo.getPrecio());
+			pst.setString(4, pojo.getFoto());
 			// se ejecuta la query
 			int affectedRows = pst.executeUpdate();
 			if (affectedRows != 1) {
@@ -76,8 +81,15 @@ public class ProductoDAOImpl implements ICrudable<Producto> {
 				rs.next();
 				String nombreObtenido = rs.getString("nombre");
 				int idObtenido = rs.getInt("id");
+				String foto = rs.getString("imagen");
+				float precio = rs.getFloat("precio");
+				
+				
 				p.setId(idObtenido);
 				p.setNombre(nombreObtenido);
+				p.setFoto(foto);
+				p.setPrecio(precio);
+				
 
 			}//try 
 
@@ -99,9 +111,15 @@ public class ProductoDAOImpl implements ICrudable<Producto> {
 				while (rs.next()) {
 					String nombre = rs.getString("nombre");
 					int id = rs.getInt("id");
+					String foto = rs.getString("imagen");
+					float precio = rs.getFloat("precio");
+					
 					Producto p = new Producto(nombre);
 					p.setId(id);
+					p.setFoto(foto);
+					p.setPrecio(precio);
 					productos.add(p);
+					
 
 				} // while
 
@@ -124,10 +142,15 @@ public class ProductoDAOImpl implements ICrudable<Producto> {
 		try (// establecer la conexion
 				Connection conn = ConnectionManager.getConnection();
 				PreparedStatement pst = conn.prepareStatement(SQL_UPDATE);
-		// establecer el preparedStatement
+		// establecer el preparedStatement UPDATE producto SET nombre=?,precio=?,imagen=? WHERE id=?;"
 		) {
 			pst.setString(1, pojo.getNombre());
-			pst.setInt(2, pojo.getId());
+			
+			pst.setFloat(2, pojo.getPrecio());
+			pst.setString(3, pojo.getFoto());
+			pst.setInt(4, pojo.getId());
+			
+			
 			int affectedRows = pst.executeUpdate();
 			if (affectedRows != 1) {
 				throw new Exception("Hubo un problema con el update.¿Existe el id= " + pojo.getId() + "?");
@@ -157,5 +180,38 @@ public class ProductoDAOImpl implements ICrudable<Producto> {
 
 		return producto;
 	}
+
+	@Override
+	public ArrayList<Producto> getAllByPrice(Float min, Float max) throws Exception {
+		ArrayList<Producto> productosReturn=new ArrayList<Producto>();
+			
+		try (Connection conn=ConnectionManager.getConnection();
+			PreparedStatement pst=conn.prepareStatement(SQL_SELECT_BY_PRICE)	
+				){
+			//setear los valores max y min sobre lo que buscar
+			pst.setFloat(1, min);
+			pst.setFloat(2, max);
+			try (ResultSet rs=pst.executeQuery()){
+				while (rs.next()) {
+					Producto p=new Producto();
+					p.setId(rs.getInt("id"));
+					p.setNombre(rs.getString("nombre"));
+					p.setPrecio(rs.getFloat("precio"));
+					p.setFoto(rs.getString("imagen"));
+					productosReturn.add(p);
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw e;
+			}
+			
+		} catch (Exception e) {
+			throw e;
+		}
+		
+		return productosReturn;
+	}
+
 
 }
