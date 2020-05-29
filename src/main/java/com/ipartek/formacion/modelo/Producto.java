@@ -3,17 +3,24 @@ package com.ipartek.formacion.modelo;
 public class Producto {
 	private String nombre;
 	private int id;
-
+	private String foto;
+	private float precio;
+	
 	public Producto() {
 		super();
 		this.id = 0;
 		this.nombre = "";
+		this.precio = 0;
+		this.foto = "https://picsum.photos/100/100";
 	}
 	
 
 	public Producto(String nombre) {
 		this();
+		this.id = 0;
 		this.nombre = nombre;
+		this.precio=0;
+		this.foto="https://picsum.photos/200/300";
 	}
 
 
@@ -34,10 +41,33 @@ public class Producto {
 	}
 
 
+	public String getFoto() {
+		return foto;
+	}
+
+
+	public void setFoto(String foto) {
+		this.foto = foto;
+	}
+
+
+	public float getPrecio() {
+		return precio;
+	}
+
+
+	public void setPrecio(float precio) {
+		this.precio = precio;
+	}
+
+
 	@Override
 	public String toString() {
-		return "Producto [nombre=" + nombre + ", id=" + id + "]";
+		return "Producto [nombre=" + nombre + ", id=" + id + ", foto=" + foto + ", precio=" + precio + "]";
 	}
+
+
+
 
 	
 }
