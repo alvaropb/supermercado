@@ -1,14 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-
-
-</head>
-<body>
+<% String titulo="GetYPost"; %>
+<%@ include file="include/header.jsp" %>
 	<h1>Ejemplos de GET y POST</h1>
 	<p>es necesario un enlace, aunque se puede hacer desde un formulario si cambiamos el METHOD</p>
 	<p>Normalmente es para solicitar informacion al servidor, aunque tambien lo usemos para eliminar</p>
@@ -27,5 +18,4 @@
 	<h2>RESULTADO</h2>
 	${resultado}
 
-</body>
-</html>
+<%@ include file="include/footer.jsp" %>
