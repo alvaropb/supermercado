@@ -34,23 +34,28 @@ public class ProductosController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		String redireccionCards = request.getParameter("cards");
 
-		//llamar a dao
-		ProductoDAOImpl productoDAOImpl=ProductoDAOImpl.getInstace();
-		ArrayList<Producto>	productos=	new ArrayList<Producto>();
-		
+		// llamar a dao
+		ProductoDAOImpl productoDAOImpl = ProductoDAOImpl.getInstace();
+		ArrayList<Producto> productos = new ArrayList<Producto>();
+
 		try {
-			productos=	productoDAOImpl.getAll();
+			productos = productoDAOImpl.getAll();
 		} catch (Exception e) {
 
 			e.printStackTrace();
 		}
-		//enviar datos a la vista
+		// enviar datos a la vista
 		request.setAttribute("productos", productos);
-		
-		
-		//ir a la nueva vista o jsp
-		request.getRequestDispatcher("producto.jsp").forward(request, response);
+
+		// ir a la nueva vista o jsp
+		if (redireccionCards == null) {
+			request.getRequestDispatcher("producto.jsp").forward(request, response);
+		}else {
+			request.getRequestDispatcher("productos-card.jsp").forward(request, response);
+		}
+
 	}
 
 }

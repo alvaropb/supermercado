@@ -14,8 +14,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <link rel="stylesheet" href="css/supermercado.css">    
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jszip-2.5.0/pdfmake-0.1.18/dt-1.10.12/af-2.1.2/b-1.2.2/b-colvis-1.2.2/b-flash-1.2.2/b-html5-1.2.2/b-print-1.2.2/cr-1.3.2/fc-3.2.2/fh-3.1.2/kt-2.1.3/r-2.1.0/rr-1.1.2/sc-1.4.2/se-1.2.0/datatables.min.css"/>
-    
-</head>
+  </head>
   <body>
       
     <!-- Optional JavaScript -->
@@ -40,17 +39,30 @@
                     <li class="nav-item ${('inicio' eq param.pagina)?'active':'' }"><!-- TODO quitar active y que sea dinamico en funcion de la pagina en la que estemos -->
                         <a class="nav-link" href="index.jsp">Inicio </a>
                     </li>
-                    <li class="nav-item ${('login' eq param.pagina)?'active':'' }">
-                    <a class="nav-link" href="login.html">login para el administrador POR HACER </a>
-                    </li>
+
                     <li class="nav-item ${('registro-producto' eq param.pagina)?'active':'' }">
                         <a class="nav-link" href="crear-productos.jsp" >Formulario registro de producto</a>
                     </li>
-                    <li class="nav-item ${('listado-productos' eq param.pagina)?'active':'' }">
-                        <a class="nav-link" href="productos" >Listado de productos y buscador</a>
-                    </li>
+                    <c:if test="${not empty isLogeado }">
+	                    <li class="nav-item ${('listado-productos' eq param.pagina)?'active':'' }">
+	                        <a class="nav-link" href="productos" >Listado de productos y buscador</a>
+	                    </li>
+	                </c:if>
+ 
 
             </ul>
+                    <div class="form-inline my-2 my-lg-0">
+                     <c:if test="${empty isLogeado }"> <!-- TODO pintar en la cabecera el nombre y quitar el btn de login si isLogeado es ok -->
+								<a class="btn btn-warning" href="login.jsp" >Login</a>
+	                        <!-- TODO pintar en la cabecera el nombre y quitar el btn de login si isLogeado es ok -->
+	                     </c:if>
+			             <c:if test="${not empty isLogeado }">
+			             	<strong class="text-light">Ultima conexion: ${cookie['ultima_conexion'].value}|</strong>
+	                        <strong class="text-light">idioma: ${cookie['idioma'].value}|</strong>
+	                        <strong class="text-light">  usuario: ${nombre }</strong>
+	                         <a class="btn btn-warning" href="logout" >Logout</a>
+						 </c:if>
+					</div>
 
         </div>
     </nav>

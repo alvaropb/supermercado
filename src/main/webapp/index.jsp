@@ -17,6 +17,8 @@
 <a href="productos">Ver productos</a>
 <a href="crear-productos.jsp">crear un producto</a>
 <a href="crear-alumnos.jsp">crear un alumno</a>
-<a href="cv/formulario.jsp">ir a formulario cv</a>
+<a href="cv/formulario.jsp">ir a formulario cv</a><br>
+
+<a href="productos?cards=1" >productos-card</a>
 
 <jsp:include page="include/footer.jsp"/>
