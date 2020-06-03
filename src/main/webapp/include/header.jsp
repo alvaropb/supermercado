@@ -43,7 +43,7 @@
                     <li class="nav-item ${('registro-producto' eq param.pagina)?'active':'' }">
                         <a class="nav-link" href="crear-productos.jsp" >Formulario registro de producto</a>
                     </li>
-                    <c:if test="${not empty isLogeado }">
+                    <c:if test="${not empty usuario_logueado }">
 	                    <li class="nav-item ${('listado-productos' eq param.pagina)?'active':'' }">
 	                        <a class="nav-link" href="productos" >Listado de productos y buscador</a>
 	                    </li>
@@ -52,14 +52,14 @@
 
             </ul>
                     <div class="form-inline my-2 my-lg-0">
-                     <c:if test="${empty isLogeado }"> <!-- TODO pintar en la cabecera el nombre y quitar el btn de login si isLogeado es ok -->
+                     <c:if test="${empty usuario_logueado }"> <!-- TODO pintar en la cabecera el nombre y quitar el btn de login si isLogeado es ok -->
 								<a class="btn btn-warning" href="login.jsp" >Login</a>
 	                        <!-- TODO pintar en la cabecera el nombre y quitar el btn de login si isLogeado es ok -->
 	                     </c:if>
-			             <c:if test="${not empty isLogeado }">
+			             <c:if test="${not empty usuario_logueado }">
 			             	<strong class="text-light">Ultima conexion: ${cookie['ultima_conexion'].value}|</strong>
 	                        <strong class="text-light">idioma: ${cookie['idioma'].value}|</strong>
-	                        <strong class="text-light">  usuario: ${nombre }</strong>
+	                        <strong class="text-light">  usuario: ${usuario_logueado.nombre }</strong>
 	                         <a class="btn btn-warning" href="logout" >Logout</a>
 						 </c:if>
 					</div>

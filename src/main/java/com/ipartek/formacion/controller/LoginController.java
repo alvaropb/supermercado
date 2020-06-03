@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.ipartek.formacion.modelo.Usuario;
+import com.ipartek.formacion.modelo.UsuarioDAOImpl;
+
 /**
  * Servlet implementation class LoginController
  */
@@ -41,16 +44,23 @@ public class LoginController extends HttpServlet {
 		String email=request.getParameter("email");
 		String recordar=request.getParameter("recordar");
 		HttpSession sesion=request.getSession();
-		// TODO validar parametros contra la bbdd
-		
-		if ("admin".equals(nombre)&&"123456".equals(pass)) {
+		// validar parametros contra la bbdd
+		Usuario usuario=null;
+		UsuarioDAOImpl dao=UsuarioDAOImpl.getInstance();
+		try {
+			usuario=dao.existe(nombre, pass);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (usuario!=null) {
 			
 			// si login ok,
 			// 1.-guardar en la session el nombre y un boleano isLogeado
 			
 				// setear atributo de ok en Alerta
-			sesion.setAttribute("isLogeado", true);
-			sesion.setAttribute("nombre", nombre);
+			sesion.setAttribute("usuario_logueado", usuario);
+	
 			sesion.setMaxInactiveInterval(60*5);
 			//setear mensaje de login ok
 			request.setAttribute("alerta", new Alerta("Se logueo correctamente","success"));
@@ -63,33 +73,33 @@ public class LoginController extends HttpServlet {
 			if ("elija un idioma".equals(idioma)) {
 				idioma="es";
 			}
-			Cookie cookieIdioma=new Cookie("idioma", idioma);
+				Cookie cookieIdioma=new Cookie("idioma", idioma);
+					// Se le da una duracion a la cookie
+				cookieIdioma.setMaxAge(1*60*60*24*365);//1 año
+					// se añade la cookie a la response
+				response.addCookie(cookieIdioma);
+				// Ultima conexion
+					// se crea cookie con parametro sysdate
+				Date fechaUltimaConexion=new Date();
+				Cookie cookieUltimaConexion=new Cookie("ultima_conexion", fechaUltimaConexion.toString().replace(" ", "_"));
+					// se le dá una duracion a la cookie
+				cookieUltimaConexion.setMaxAge(1*60*60*24*365);
+					//se añade la cookie a la response
+				response.addCookie(cookieUltimaConexion);
+				// cookie recordar
+				Cookie cookieRecordar=new Cookie("recordar", recordar);
 				// Se le da una duracion a la cookie
-			cookieIdioma.setMaxAge(1*60*60*24*365);//1 año
-				// se añade la cookie a la response
-			response.addCookie(cookieIdioma);
-			// Ultima conexion
-				// se crea cookie con parametro sysdate
-			Date fechaUltimaConexion=new Date();
-			Cookie cookieUltimaConexion=new Cookie("ultima_conexion", fechaUltimaConexion.toString().replace(" ", "_"));
-				// se le dá una duracion a la cookie
-			cookieUltimaConexion.setMaxAge(1*60*60*24*365);
-				//se añade la cookie a la response
-			response.addCookie(cookieUltimaConexion);
-			// cookie recordar
-			Cookie cookieRecordar=new Cookie("recordar", recordar);
-			// Se le da una duracion a la cookie
-			cookieRecordar.setMaxAge(1*60*60*24*365);//1 año
-				// se añade la cookie a la response
-			response.addCookie(cookieRecordar);
-			
+				cookieRecordar.setMaxAge(1*60*60*24*365);//1 año
+					// se añade la cookie a la response
+				response.addCookie(cookieRecordar);
+				
 			if ("on".equals(recordar)) {
 				// cookie email
-			Cookie cookieEmail=new Cookie("email", email);
-			// Se le da una duracion a la cookie
-			cookieEmail.setMaxAge(1*60*60*24*365);//1 año
-				// se añade la cookie a la response
-			response.addCookie(cookieEmail);
+				Cookie cookieEmail=new Cookie("email", email);
+				// Se le da una duracion a la cookie
+				cookieEmail.setMaxAge(1*60*60*24*365);//1 año
+					// se añade la cookie a la response
+				response.addCookie(cookieEmail);
 			}else {
 				Cookie cookieEmail=new Cookie("email", email);
 				// Se le da una duracion a la cookie
@@ -101,7 +111,9 @@ public class LoginController extends HttpServlet {
 			
 			// 2.-redireccionar a index  de login si isLogeado es ok
 			request.getRequestDispatcher("index.jsp").forward(request, response);
-		}else {
+		}//if logueado correcto
+		
+		else {
 			// si login ko
 			// 1.- borrar session
 			sesion.invalidate();

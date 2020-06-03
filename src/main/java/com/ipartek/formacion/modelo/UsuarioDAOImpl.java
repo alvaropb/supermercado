@@ -13,6 +13,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	private final String SQL_GET_ALL_USUARIO = "SELECT nombre,id FROM usuario ORDER BY id DESC";
 	private final String SQL_INSERT_USUARIO = "INSERT INTO usuario (nombre,contrasenia,id_rol) VALUES(?,?,?)";
 	private final String SQL_GET_BY_ID_USUARIO = "SELECT nombre, id FROM usuario WHERE id=?";
+	private final String SQL_EXISTE = "SELECT id, nombre, id_rol FROM usuario WHERE nombre =? AND contrasenia =? ";
 	// INICIO patron singleton
 	private static UsuarioDAOImpl INSTANCE = null;
 
@@ -187,4 +188,56 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		return usuarios;
 	}
 
+	@Override
+	public Usuario existe(String nombre, String password) throws Exception {
+		Usuario usuario=null;
+			try (Connection conn=ConnectionManager.getConnection();
+				PreparedStatement pst=conn.prepareStatement(SQL_EXISTE)){
+				
+				pst.setString(1, nombre);
+				pst.setString(2, password);
+				
+				try (ResultSet rs=pst.executeQuery()){
+					
+					if (rs.next()) {
+						usuario=new Usuario();
+						usuario.setId(rs.getInt("id"));
+						usuario.setNombre(rs.getString("nombre"));
+
+					}
+					
+				} catch (Exception e) {
+					System.out.println("**********************************************************************");
+					e.printStackTrace();
+					System.out.println("**********************************************************************");
+					throw new Exception(e.getMessage());
+				}
+				
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new Exception(e.getMessage());
+			}
+		
+		
+
+		return usuario;
+	}
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
