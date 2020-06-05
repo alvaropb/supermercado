@@ -7,7 +7,7 @@
 </jsp:include>
 <h1>PAGINA DE LOGIN</h1>
 
-<form action="login" method="post">
+<form action="login" method="post" onsubmit="cifrar()">
 		
 	<div class="form-group">
 		<label for="nombre">Nombre</label> <input
@@ -16,8 +16,8 @@
 	
 
 	<div class="form-group">
-		<label for="exampleInputPassword1">Password</label> <input
-			type="password" class="form-control" id="exampleInputPassword1" name="pass" placeholder="Contraseña" >
+		<label for="pass">Password</label> <input
+			type="password" class="form-control" id="pass" name="pass" placeholder="Contraseña" >
 	</div>
 	
 	<select class="custom-select" name="idioma">
