@@ -36,7 +36,7 @@
                         <i class="fas fa-cart-arrow-down"></i>
                         
                     </li>
-                    <li class="nav-item ${('inicio' eq param.pagina)?'active':'' }"><!-- TODO quitar active y que sea dinamico en funcion de la pagina en la que estemos -->
+                    <li class="nav-item ${('inicio' eq param.pagina)?'active':'' }">
                         <a class="nav-link" href="index.jsp">Inicio </a>
                     </li>
 
@@ -46,6 +46,11 @@
                     <c:if test="${not empty usuario_logueado }">
 	                    <li class="nav-item ${('listado-productos' eq param.pagina)?'active':'' }">
 	                        <a class="nav-link" href="productos" >Listado de productos y buscador</a>
+	                    </li>
+	                </c:if>
+		             <c:if test="${not empty usuario_logueado }">
+	                    <li class="nav-item ${('listado-alumnos' eq param.pagina)?'active':'' }">
+	                        <a class="nav-link" href="alumnos-crear" >Listado de alumnos y buscador</a>
 	                    </li>
 	                </c:if>
  
@@ -78,8 +83,13 @@
 			  </button>
 		</div>
 	</c:if>
+	
+	
 		
-			
+	<%
+		session.setAttribute("alerta", null);
+	
+	%>		
 	
 
 		
