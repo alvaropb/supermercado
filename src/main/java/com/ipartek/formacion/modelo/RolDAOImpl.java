@@ -3,80 +3,101 @@ package com.ipartek.formacion.modelo;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class RolDAOImpl implements RolDAO{
+public class RolDAOImpl implements RolDAO {
 
+	private final String SQL_INSERT = "INSERT INTO rol(nombre) VALUES(?)";
+	private final String SQL_GET_BY_ID = "SELECT id, nombre FROM rol WHERE id=?";
+	private final String SQL_GET_ALL = "SELECT id, nombre FROM rol";
+	private final String SQL_UPDATE = "";
+	private final String SQL_DELETE = "";
 
-	private final String SQL_INSERT="INSERT INTO rol(nombre) VALUES(?)";
-	private final String SQL_GET_BY_ID="SELECT id, nombre FROM rol WHERE id=?";
-	private final String SQL_GET_ALL="";
-	private final String SQL_UPDATE="";
-	private final String SQL_DELETE="";
-	
-	private static RolDAOImpl INSTANCE=null;
-	//Singleton
+	private static RolDAOImpl INSTANCE = null;
+
+	// Singleton
 	private RolDAOImpl() {
 		super();
 	}
+
 	private synchronized static RolDAOImpl getRolDAOImpl() {
-		if (INSTANCE==null) {
-			INSTANCE=new RolDAOImpl();
-		} 
+		if (INSTANCE == null) {
+			INSTANCE = new RolDAOImpl();
+		}
 		return INSTANCE;
-		
+
 	}
+
 	public static RolDAOImpl getInstance() {
 		return getRolDAOImpl();
 	}
-	
-	
-	
+
 	@Override
 	public Rol insert(Rol pojo) throws Exception {
-		Rol rol=new Rol();
-		
-		try(Connection conn=ConnectionManager.getConnection();
-				PreparedStatement pst=conn.prepareStatement(SQL_INSERT,PreparedStatement.RETURN_GENERATED_KEYS)) {
+		Rol rol = new Rol();
+
+		try (Connection conn = ConnectionManager.getConnection();
+				PreparedStatement pst = conn.prepareStatement(SQL_INSERT, PreparedStatement.RETURN_GENERATED_KEYS)) {
 			pst.setString(1, pojo.getNombre());
-			int affectedRows =pst.executeUpdate();
-			if (affectedRows!=1) {
-				throw new Exception("Hubo un problema  a la hora de insertar.Nombre duplicado? nombre="+pojo.getNombre());
+			int affectedRows = pst.executeUpdate();
+			if (affectedRows != 1) {
+				throw new Exception(
+						"Hubo un problema  a la hora de insertar.Nombre duplicado? nombre=" + pojo.getNombre());
 			}
-			try (ResultSet rs=pst.getGeneratedKeys()){
-				if(rs.next()) {
+			try (ResultSet rs = pst.getGeneratedKeys()) {
+				if (rs.next()) {
 					pojo.setId(rs.getInt(1));
 				}
 			}
-			
+
 		}
 		return rol;
 	}
 
 	@Override
 	public Rol getById(int id) throws Exception {
-		Rol rol=new Rol();
-		try (Connection conn=ConnectionManager.getConnection();
-				PreparedStatement pst=conn.prepareStatement(SQL_GET_BY_ID)){
+		Rol rol = new Rol();
+		try (Connection conn = ConnectionManager.getConnection();
+				PreparedStatement pst = conn.prepareStatement(SQL_GET_BY_ID)) {
 			pst.setInt(1, id);
-			try(ResultSet rs=pst.executeQuery()) {
+			try (ResultSet rs = pst.executeQuery()) {
 				if (rs.next()) {
 					rol.setId(rs.getInt("id"));
 					rol.setNombre(rs.getString("nombre"));
-				}else {
-					throw new Exception("No hubo resultados con esta id:"+id);
+				} else {
+					throw new Exception("No hubo resultados con esta id:" + id);
 				}
 			}
-			
+
 		}
 		return rol;
 	}
 
 	@Override
 	public ArrayList<Rol> getAll() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Rol> roles = new ArrayList<Rol>();
+		
+		try (Connection conn=ConnectionManager.getConnection();
+				PreparedStatement pst=conn.prepareStatement(SQL_GET_ALL);
+				ResultSet rs=pst.executeQuery()){
+			
+				while (rs.next()) {
+					Rol rol=new Rol();
+					rol=mapper(rs);
+					roles.add(rol);
+				}
+				
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception("Ocurrio un error a la ora de obtener roles");
+		}
+
+		return roles;
 	}
+
+
 
 	@Override
 	public Rol update(Rol pojo) throws Exception {
@@ -89,5 +110,11 @@ public class RolDAOImpl implements RolDAO{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	private Rol mapper(ResultSet rs) throws SQLException {
+		Rol rol=new Rol();
+		rol.setId(rs.getInt("id"));
+		rol.setNombre(rs.getString("nombre"));
+		
+		return rol;
+	}
 }
