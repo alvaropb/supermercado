@@ -11,8 +11,9 @@
 			<tr>
 				<td>Id</td>
 				<td>Nombre</td>
-				<td>EDITAR</td>
-				<td>ELIMINAR</td>
+				<td>[Id Rol] Nombre Rol</td>
+				<td>OPERACIONES</td>
+				
 			</tr>
 		</thead>
 		<tbody>
@@ -20,9 +21,11 @@
 				<tr>
 					<td>${alumno.id}</td>
 					<td>${alumno.nombre}</td>
-					<td><a href="alumnos-crear?id=${alumno.id}" class="fas fa-edit "></a></td>
-					<td><a href="alumnos-eliminar?id=${alumno.id}"
-						class="far fa-trash-alt"> </a></td>
+					<td>[${alumno.rol.id}]{alumno.rol.nombre}</td>
+					<td><a href="alumnos-crear?id=${alumno.id}" class="fas fa-edit "></a>
+						<a href="alumnos-eliminar?id=${alumno.id}" class="far fa-trash-alt"> </a>
+					</td>
+					
 				</tr>
 			</c:forEach>
 		</tbody>
